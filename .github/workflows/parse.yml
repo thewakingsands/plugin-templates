@@ -1,0 +1,12 @@
+name: 解析插件
+on:
+  push:
+    paths:
+      - 'parse/**'
+jobs:
+  - uses: actions/upload-artifact@v4
+    with:
+      name: ffxiv_act_plugin.zip
+      path: parse
+      if-no-files-found: error
+      compression-level: 9
