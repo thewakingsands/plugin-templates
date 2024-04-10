@@ -14,7 +14,7 @@ jobs:
           lfs: true
       - uses: actions/upload-artifact@v4
         with:
-          name: ffxiv_act_plugin.zip
+          name: ffxiv_act_plugin
           path: parse
           if-no-files-found: error
           compression-level: 9
