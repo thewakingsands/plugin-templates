@@ -1,0 +1,57 @@
+{
+  "Overlays": [
+    {
+      "forceWhiteBackground": false,
+      "GlobalHotkeys": [],
+      "ActwsCompatibility": false,
+      "NoFocus": true,
+      "Zoom": 1,
+      "ForceWhiteBackground": false,
+      "MuteWhenHidden": false,
+      "Name": "DPS 悬浮窗",
+      "IsVisible": true,
+      "Disabled": false,
+      "IsClickThru": false,
+      "Position": "12, 12",
+      "Size": "662, 415",
+      "Url": "file:///C:/Users/WDAGUtilityAccount/Desktop/ACT/Plugins/ngld/resources/guide.html",
+      "MaxFrameRate": 30,
+      "GlobalHotkeyEnabled": false,
+      "GlobalHotkey": 0,
+      "GlobalHotkeyModifiers": 0,
+      "GlobalHotkeyType": 0,
+      "IsLocked": false,
+      "LogConsoleMessages": true,
+      "$type": "RainbowMage.OverlayPlugin.Overlays.MiniParseOverlayConfig, OverlayPlugin.Core, Version=20.9.13.0, Culture=neutral, PublicKeyToken=null"
+    }
+  ],
+  "FollowLatestLog": true,
+  "HideOverlaysWhenNotActive": true,
+  "HideOverlayDuringCutscene": true,
+  "ErrorReports": false,
+  "UpdateCheck": false,
+  "WSServerIP": "127.0.0.1",
+  "WSServerPort": 10501,
+  "WSServerSSL": false,
+  "WSServerRunning": false,
+  "TunnelRegion": null,
+  "Version": null,
+  "LastUpdateCheck": "0001-01-01T00:00:00",
+  "EventSourceConfigs": {
+    "MiniParse": {
+      "OverlayData": {},
+      "UpdateInterval": 1,
+      "EnmityIntervalMs": 600,
+      "SortKey": "encdps",
+      "SortDesc": true,
+      "UpdateDpsDuringImport": false,
+      "EndEncounterAfterWipe": true,
+      "EndEncounterOutOfCombat": true,
+      "CutsceneDetectionLog": false
+    },
+    "CactbotESConfig": {
+      "OverlayData": {},
+      "LastUpdateCheck": "0001-01-01T00:00:00"
+    }
+  }
+}

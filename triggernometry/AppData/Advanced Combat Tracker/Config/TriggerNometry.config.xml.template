@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<Configuration Version="1" PluginVersion="1.1.3.1" UpdateNotifications="No" DefaultRepository="No" Language="简体中文 (zh-CN)" ShowWelcome="false" SfxVolumeAdjustment="100" UseOsClipboard="true" TtsVolumeAdjustment="100" DebugLevel="Info" FfxivPartyOrdering="Legacy" FfxivCustomPartyOrder="19, 1, 21, 3, 32, 37, 24, 6, 28, 33, 20, 2, 22, 4, 30, 29, 34, 23, 5, 31, 38, 25, 7, 27, 26, 35, 36" UseACTForTTS="true" UseACTForSound="true" WarnAdmin="false" EventSeparator="" StartupTriggerId="00000000-0000-0000-0000-000000000000" UseScarborough="true" StartupTriggerType="Trigger" LogNormalEvents="true" FfxivLogNetwork="false" TestLiveByDefault="false" WindowToMonitor="最终幻想XIV" DeveloperMode="true" CacheImageExpiry="518400" CacheSoundExpiry="518400" CacheJsonExpiry="10080" CacheRepoExpiry="518400" CacheFileExpiry="518400" LogVariableExpansions="false">
+  <Root Id="09e5da22-81e1-47ae-8577-f3493a931158" Name="Local triggers" Enabled="true">
+    <Folders />
+    <Triggers />
+  </Root>
+  <RepositoryRoot Name="Remote triggers" Enabled="true">
+    <Repositories>
+    </Repositories>
+  </RepositoryRoot>
+  <Substitutions />
+</Configuration>

@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-16" standalone="yes"?>
+<Config>
+	<SettingsSerializer>
+		<CheckBox Name="checkBoxCheckUpdate" Value="False" />
+		<CheckBox Name="checkBoxNotifyStableOnly" Value="False" />
+		<String Name="Language" Value="zh-CN" />
+		<String Name="VersionIgnored" Value="" />
+		<String Name="TTSEngine" Value="ttsEngineCafe" />
+		<Int32 Name="PluginIntegration" Value="0" />
+	</SettingsSerializer>
+	<PlaybackSettings>
+		<Method>BuiltIn</Method>
+		<MasterVolume>100</MasterVolume>
+		<Api>WinMM</Api>
+	</PlaybackSettings>
+	<PreProcessorSettings>
+		<Rules />
+	</PreProcessorSettings>
+	<CafeTTSSettings>
+		<Voice>xiaoyun</Voice>
+	</CafeTTSSettings>
+	<BaiduTTSSettings>
+		<ApiKey />
+		<SecretKey />
+		<Speed>5</Speed>
+		<Pitch>5</Pitch>
+		<Volume>5</Volume>
+		<Person>0</Person>
+		<UseHttps>false</UseHttps>
+	</BaiduTTSSettings>
+	<SAPI5Settings>
+		<Voice>tts_ms_zh-cn_huihui_11.0</Voice>
+		<Rate>4</Rate>
+		<Volume>100</Volume>
+		<Pitch>Medium</Pitch>
+	</SAPI5Settings>
+	<BaipiaoSettings>
+		<Speed>4</Speed>
+		<Accept>true</Accept>
+	</BaipiaoSettings>
+</Config>

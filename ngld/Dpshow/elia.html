@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html ng-app="enilia.overlay" ng-controller="overlayController">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script>document.write('<base href="' + document.location + '" />');</script>
+    <link rel="stylesheet" type="text/css" href="config/enilia/js/bootstrap/dist/css/bootstrap.min.css" />
+    <script type="text/javascript" src="config/enilia/js/angular/angular.min.js"></script>
+    <script type="text/javascript" src="config/enilia/js/angular-route/angular-route.min.js"></script>
+    <script type="text/javascript" src="config/enilia/js/ngstorage/ngStorage.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="config/enilia/css/css.css" />
+    <link rel="stylesheet" type="text/css" href="config/enilia/css/jobs.css" />
+    <script type="text/javascript" src="config/enilia/app/app.js"></script>
+    <script type="text/javascript" src="config/enilia/app/tpls.js"></script>
+    <script type="text/javascript" src="config/enilia/app/DpsMeter/DpsMeter.js"></script>
+    <script type="text/javascript" src="config/enilia/app/Config/Config.js"></script>
+    <script type="text/javascript" src="config/enilia/app/DBManager/DBManager.js"></script>
+</head>
+    <body ng-class="{resizable: !state.isLocked}">
+        <div id="container" ng-class="{expandFromBottom: expandFromBottom}">
+            <ng-view></ng-view>
+        </div>
+    </body>
+</html>

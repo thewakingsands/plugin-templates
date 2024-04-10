@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<TriggernometryExport Version="1">
+  <ExportedTrigger Enabled="true" Name="团灭重置" Id="3efb99ef-13f8-41a4-833a-bb15a9756af3" RegularExpression="^.{14} 21:.{8}:4000001[026]">
+    <Actions>
+      <Action OrderNumber="1" TextAuraFontSize="9" TextAuraFontName="宋体" ActionType="EndEncounter">
+        <Condition Enabled="false" Grouping="Or" />
+        <Conditions />
+      </Action>
+    </Actions>
+    <Condition Enabled="false" Grouping="Or" />
+    <Conditions />
+  </ExportedTrigger>
+</TriggernometryExport>
