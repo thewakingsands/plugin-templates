@@ -1,8 +1,10 @@
 name: 解析插件
 on:
+  workflow_dispatch:
   push:
     paths:
       - 'parse/**'
+      - '.github/workflows/parse.yml'
 jobs:
   zip:
     runs-on: ubuntu-latest
