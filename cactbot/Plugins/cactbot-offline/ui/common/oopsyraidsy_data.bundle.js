@@ -12987,7 +12987,8 @@ const aloalo_island_triggerSet = {
           // Corresponds to 0x8CDC ability
           en: 'Targeted Light',
           de: 'Gezieltes Licht',
-          fr: 'Lumière ciblée'
+          fr: 'Lumière ciblée',
+          cn: '高精度光弹'
         }
       };
     }
@@ -12995,7 +12996,8 @@ const aloalo_island_triggerSet = {
     // Corresponds to 0x8946 ability
     en: 'Fair Flight',
     de: 'Feenflug',
-    fr: 'Vol équitable'
+    fr: 'Vol équitable',
+    cn: '仙女击飞'
   })]
 };
 /* harmony default export */ const aloalo_island = (aloalo_island_triggerSet);
@@ -13288,7 +13290,9 @@ const another_aloalo_island_savage_triggerSet = {
     en: 'Tornado',
     de: 'Tornado',
     fr: 'Tornade',
-    cn: '龙卷风'
+    ja: 'トルネド',
+    cn: '龙卷风',
+    ko: '토네이도'
   }), pushedIntoWall('AAIS Angry Seas', '8AE1'), pushedIntoWall('AAIS Pop', '896B'), another_aloalo_island_savage_nonzeroDamageMistake('AAIS Hundred Lashings', ['8AE5', '8AE6'], 'warn')]
 };
 /* harmony default export */ const another_aloalo_island_savage = (another_aloalo_island_savage_triggerSet);
@@ -13501,7 +13505,9 @@ const another_aloalo_island_triggerSet = {
     en: 'Tornado',
     de: 'Tornado',
     fr: 'Tornade',
-    cn: '龙卷风'
+    ja: 'トルネド',
+    cn: '龙卷风',
+    ko: '토네이도'
   }), another_aloalo_island_pushedIntoWall('AAI Angry Seas', '8AC1'), another_aloalo_island_pushedIntoWall('AAI Pop', '894E'), another_aloalo_island_nonzeroDamageMistake('AAI Hundred Lashings', ['8AC9', '8ACB'], 'warn')]
 };
 /* harmony default export */ const another_aloalo_island = (another_aloalo_island_triggerSet);

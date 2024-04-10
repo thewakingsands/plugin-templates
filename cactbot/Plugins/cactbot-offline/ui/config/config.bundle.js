@@ -170,8 +170,20 @@ const browserLanguagesToLang = languages => {
 /* harmony export */   "W": () => (/* binding */ logDefinitionsVersions),
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+// Specifies a fieldName key with one or more possible values and a `canAnonyize` override
+// if that field and value are present on the log line. See 'GameLog' for an example.
+// Options for including these lines in a filtered log via the log splitter's analysis option.
+// `include:` specifies the level of inclusion:
+//   - 'all' will include all lines with no filtering.
+//   - 'filter' will include only those lines that match at least one of the specified `filters`.
+//   - 'none' and 'never' are similar, but 'never' is an override; unlike 'none', the automated
+//      workflow will not replace it with 'all' upon finding active triggers using this line type.
+// `filters:` contains Netregex-style filter criteria. Lines satisfying at least one filter will be
+//   included. If `include:` = 'filter', `filters` must be present; otherwise, it must be omitted.
+// `combatantIdFields:` are field indices containing combatantIds. If specified, these fields
+//   will be checked for ignored combatants (e.g. pets) during log filtering.
 // TODO: Maybe bring in a helper library that can compile-time extract these keys instead?
-const combatantMemoryKeys = ['CurrentWorldID', 'WorldID', 'WorldName', 'BNpcID', 'BNpcNameID', 'PartyType', 'ID', 'OwnerID', 'WeaponId', 'Type', 'Job', 'Level', 'Name', 'CurrentHP', 'MaxHP', 'CurrentMP', 'MaxMP', 'PosX', 'PosY', 'PosZ', 'Heading', 'MonsterType', 'Status', 'ModelStatus', 'AggressionStatus', 'TargetID', 'IsTargetable', 'Radius', 'Distance', 'EffectiveDistance', 'NPCTargetID', 'CurrentGP', 'MaxGP', 'CurrentCP', 'MaxCP', 'PCTargetID', 'IsCasting1', 'IsCasting2', 'CastBuffID', 'CastTargetID', 'CastDurationCurrent', 'CastDurationMax', 'TransformationId'];
+const combatantMemoryKeys = ['CurrentWorldID', 'WorldID', 'WorldName', 'BNpcID', 'BNpcNameID', 'PartyType', 'ID', 'OwnerID', 'WeaponId', 'Type', 'Job', 'Level', 'Name', 'CurrentHP', 'MaxHP', 'CurrentMP', 'MaxMP', 'PosX', 'PosY', 'PosZ', 'Heading', 'MonsterType', 'Status', 'ModelStatus', 'AggressionStatus', 'TargetID', 'IsTargetable', 'Radius', 'Distance', 'EffectiveDistance', 'NPCTargetID', 'CurrentGP', 'MaxGP', 'CurrentCP', 'MaxCP', 'PCTargetID', 'IsCasting1', 'IsCasting2', 'CastBuffID', 'CastTargetID', 'CastGroundTargetX', 'CastGroundTargetY', 'CastGroundTargetZ', 'CastDurationCurrent', 'CastDurationMax', 'TransformationId'];
 const latestLogDefinitions = {
   GameLog: {
     type: '00',
@@ -205,7 +217,13 @@ const latestLogDefinitions = {
         }
       }
     },
-    firstOptionalField: undefined
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'filter',
+      filters: {
+        code: ['0044', '0839']
+      }
+    }
   },
   ChangeZone: {
     type: '01',
@@ -220,7 +238,10 @@ const latestLogDefinitions = {
     },
     lastInclude: true,
     canAnonymize: true,
-    firstOptionalField: undefined
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'all'
+    }
   },
   ChangedPlayer: {
     type: '02',
@@ -273,7 +294,15 @@ const latestLogDefinitions = {
       6: null
     },
     canAnonymize: true,
-    firstOptionalField: undefined
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'filter',
+      filters: {
+        id: '4.{7}'
+      },
+      // NPC combatants only
+      combatantIdFields: 2
+    }
   },
   RemovedCombatant: {
     type: '04',
@@ -418,14 +447,22 @@ const latestLogDefinitions = {
       z: 11,
       heading: 12
     },
-    possibleRsvFields: [5],
+    possibleRsvFields: 5,
     blankFields: [6],
     playerIds: {
       2: 3,
       6: 7
     },
     canAnonymize: true,
-    firstOptionalField: undefined
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'filter',
+      filters: {
+        sourceId: '4.{7}'
+      },
+      // NPC casts only
+      combatantIdFields: [2, 6]
+    }
   },
   Ability: {
     type: '21',
@@ -467,14 +504,22 @@ const latestLogDefinitions = {
       targetIndex: 45,
       targetCount: 46
     },
-    possibleRsvFields: [5],
+    possibleRsvFields: 5,
     playerIds: {
       2: 3,
       6: 7
     },
     blankFields: [6],
     canAnonymize: true,
-    firstOptionalField: undefined
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'filter',
+      filters: {
+        sourceId: '4.{7}'
+      },
+      // NPC abilities only
+      combatantIdFields: [2, 6]
+    }
   },
   NetworkAOEAbility: {
     type: '22',
@@ -516,14 +561,22 @@ const latestLogDefinitions = {
       targetIndex: 45,
       targetCount: 46
     },
-    possibleRsvFields: [5],
+    possibleRsvFields: 5,
     playerIds: {
       2: 3,
       6: 7
     },
     blankFields: [6],
     canAnonymize: true,
-    firstOptionalField: undefined
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'filter',
+      filters: {
+        sourceId: '4.{7}'
+      },
+      // NPC abilities only
+      combatantIdFields: [2, 6]
+    }
   },
   NetworkCancelAbility: {
     type: '23',
@@ -539,7 +592,7 @@ const latestLogDefinitions = {
       name: 5,
       reason: 6
     },
-    possibleRsvFields: [5],
+    possibleRsvFields: 5,
     playerIds: {
       2: 3
     },
@@ -630,13 +683,25 @@ const latestLogDefinitions = {
       targetMaxHp: 10,
       sourceMaxHp: 11
     },
-    possibleRsvFields: [3],
+    possibleRsvFields: 3,
     playerIds: {
       5: 6,
       7: 8
     },
     canAnonymize: true,
-    firstOptionalField: undefined
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'filter',
+      filters: [{
+        // effect from environment/NPC applied to player
+        sourceId: '[E4].{7}',
+        targetId: '1.{7}'
+      }, {
+        // known effectIds of interest
+        effectId: ['B9A', '808']
+      }],
+      combatantIdFields: [5, 7]
+    }
   },
   HeadMarker: {
     type: '27',
@@ -654,7 +719,11 @@ const latestLogDefinitions = {
       2: 3
     },
     canAnonymize: true,
-    firstOptionalField: undefined
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'all',
+      combatantIdFields: 2
+    }
   },
   NetworkRaidMarker: {
     type: '28',
@@ -716,13 +785,25 @@ const latestLogDefinitions = {
       target: 8,
       count: 9
     },
-    possibleRsvFields: [3],
+    possibleRsvFields: 3,
     playerIds: {
       5: 6,
       7: 8
     },
     canAnonymize: true,
-    firstOptionalField: undefined
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'filter',
+      filters: [{
+        // effect from environment/NPC applied to player
+        sourceId: '[E4].{7}',
+        targetId: '1.{7}'
+      }, {
+        // known effectIds of interest
+        effectId: ['B9A', '808']
+      }],
+      combatantIdFields: [5, 7]
+    }
   },
   NetworkGauge: {
     type: '31',
@@ -818,7 +899,11 @@ const latestLogDefinitions = {
     },
     canAnonymize: true,
     firstUnknownField: 9,
-    firstOptionalField: undefined
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'all',
+      combatantIdFields: [2, 4]
+    }
   },
   LimitBreak: {
     type: '36',
@@ -942,7 +1027,10 @@ const latestLogDefinitions = {
     },
     canAnonymize: true,
     firstOptionalField: undefined,
-    lastInclude: true
+    lastInclude: true,
+    analysisOptions: {
+      include: 'all'
+    }
   },
   SystemLogMessage: {
     type: '41',
@@ -959,7 +1047,10 @@ const latestLogDefinitions = {
       param2: 6
     },
     canAnonymize: true,
-    firstOptionalField: undefined
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'all'
+    }
   },
   StatusList3: {
     type: '42',
@@ -1067,7 +1158,10 @@ const latestLogDefinitions = {
       timestamp: 1
     },
     isUnknown: true,
-    firstOptionalField: undefined
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'never'
+    }
   },
   // OverlayPlugin log lines
   LineRegistration: {
@@ -1104,7 +1198,10 @@ const latestLogDefinitions = {
       data1: 6
     },
     canAnonymize: true,
-    firstOptionalField: undefined
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'all'
+    }
   },
   FateDirector: {
     type: '258',
@@ -1168,7 +1265,10 @@ const latestLogDefinitions = {
       isGameChanged: 5
     },
     canAnonymize: true,
-    firstOptionalField: undefined
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'all'
+    }
   },
   CombatantMemory: {
     type: '261',
@@ -1198,6 +1298,35 @@ const latestLogDefinitions = {
       sortKeys: true,
       primaryKey: 'key',
       possibleKeys: combatantMemoryKeys
+    },
+    analysisOptions: {
+      include: 'filter',
+      // TODO: This is an initial attempt to capture field changes that are relevant to analysis,
+      // but this will likely need to be refined over time
+      filters: [{
+        // TODO: ModelStatus can be a little spammy. Should try to refine this further.
+        id: '4.{7}',
+        change: 'Change',
+        pair: [{
+          key: 'ModelStatus',
+          value: '.*'
+        }]
+      }, {
+        id: '4.{7}',
+        change: 'Change',
+        pair: [{
+          key: 'WeaponId',
+          value: '.*'
+        }]
+      }, {
+        id: '4.{7}',
+        change: 'Change',
+        pair: [{
+          key: 'TransformationId',
+          value: '.*'
+        }]
+      }],
+      combatantIdFields: 3
     }
   },
   RSVData: {
@@ -1214,7 +1343,11 @@ const latestLogDefinitions = {
       value: 5
     },
     canAnonymize: true,
-    firstOptionalField: undefined
+    firstOptionalField: undefined,
+    analysisOptions: {
+      // RSV substitutions are performed automatically by the filter
+      include: 'never'
+    }
   },
   StartsUsingExtra: {
     type: '263',
@@ -1293,8 +1426,12 @@ const latestLogDefinitions = {
       npcNameId: 3,
       npcYellId: 4
     },
-    canAnonymize: false,
-    firstOptionalField: undefined
+    canAnonymize: true,
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'all',
+      combatantIdFields: 2
+    }
   },
   BattleTalk2: {
     type: '267',
@@ -1315,8 +1452,12 @@ const latestLogDefinitions = {
       // unknown4: 10,
     },
 
-    canAnonymize: false,
-    firstOptionalField: undefined
+    canAnonymize: true,
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'all',
+      combatantIdFields: 2
+    }
   },
   Countdown: {
     type: '268',
@@ -1336,7 +1477,10 @@ const latestLogDefinitions = {
       2: 6
     },
     canAnonymize: true,
-    firstOptionalField: undefined
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'never'
+    }
   },
   CountdownCancel: {
     type: '269',
@@ -1354,7 +1498,10 @@ const latestLogDefinitions = {
       2: 4
     },
     canAnonymize: true,
-    firstOptionalField: undefined
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'never'
+    }
   },
   ActorMove: {
     type: '270',
@@ -1373,8 +1520,15 @@ const latestLogDefinitions = {
       y: 7,
       z: 8
     },
-    canAnonymize: false,
-    firstOptionalField: undefined
+    playerIds: {
+      2: null
+    },
+    canAnonymize: true,
+    firstOptionalField: undefined,
+    analysisOptions: {
+      // no real way to filter noise, even if (infrequently) used for triggers
+      include: 'never'
+    }
   },
   ActorSetPos: {
     type: '271',
@@ -1386,15 +1540,26 @@ const latestLogDefinitions = {
       timestamp: 1,
       id: 2,
       heading: 3,
-      // OP call this 'rotation', but cactbot consistently uses 'heading'
+      // OP calls this 'rotation', but cactbot consistently uses 'heading'
       // unknown1: 4,
       // unknown2: 5,
       x: 6,
       y: 7,
       z: 8
     },
-    canAnonymize: false,
-    firstOptionalField: undefined
+    playerIds: {
+      2: null
+    },
+    canAnonymize: true,
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'filter',
+      filters: {
+        id: '4.{7}'
+      },
+      // NPCs only
+      combatantIdFields: 2
+    }
   },
   SpawnNpcExtra: {
     type: '272',
@@ -1409,8 +1574,16 @@ const latestLogDefinitions = {
       tetherId: 4,
       animationState: 5
     },
-    canAnonymize: false,
-    firstOptionalField: undefined
+    playerIds: {
+      3: null // `id` is an npc, but parentId could be a tethered player?
+    },
+
+    canAnonymize: true,
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'all',
+      combatantIdFields: [2, 3]
+    }
   },
   ActorControlExtra: {
     type: '273',
@@ -1427,8 +1600,42 @@ const latestLogDefinitions = {
       param3: 6,
       param4: 7
     },
-    canAnonymize: false,
-    firstOptionalField: undefined
+    playerIds: {
+      2: null
+    },
+    canAnonymize: true,
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'all',
+      combatantIdFields: 2
+    }
+  },
+  ActorControlSelfExtra: {
+    type: '274',
+    name: 'ActorControlSelfExtra',
+    source: 'OverlayPlugin',
+    messageType: '274',
+    fields: {
+      type: 0,
+      timestamp: 1,
+      id: 2,
+      category: 3,
+      param1: 4,
+      param2: 5,
+      param3: 6,
+      param4: 7,
+      param5: 8,
+      param6: 9
+    },
+    playerIds: {
+      2: null
+    },
+    canAnonymize: true,
+    firstOptionalField: undefined,
+    analysisOptions: {
+      include: 'all',
+      combatantIdFields: 2
+    }
   }
 };
 const logDefinitionsVersions = {
@@ -1436,7 +1643,7 @@ const logDefinitionsVersions = {
 };
 
 // Verify that this has the right type, but export `as const`.
-const assertLogDefinitions = logDefinitionsVersions;
+const assertLogDefinitions = latestLogDefinitions;
 console.assert(assertLogDefinitions);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (logDefinitionsVersions['latest']);
 
@@ -1448,6 +1655,7 @@ console.assert(assertLogDefinitions);
 "use strict";
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "BW": () => (/* binding */ buildNetRegexForTrigger),
+/* harmony export */   "Bx": () => (/* binding */ actorControlType),
 /* harmony export */   "ZP": () => (/* binding */ NetRegexes),
 /* harmony export */   "_1": () => (/* binding */ keysThatRequireTranslation),
 /* harmony export */   "k3": () => (/* binding */ gameLogCodes)
@@ -1477,6 +1685,14 @@ const gameLogCodes = {
   echo: '0038',
   dialog: '0044',
   message: '0839'
+};
+
+// See docs/LogGuide.md for more info about these categories
+const actorControlType = {
+  setAnimState: '003E',
+  publicContentText: '0834',
+  logMsg: '020F',
+  logMsgParams: '0210'
 };
 const defaultParams = (type, version, include) => {
   const logType = _netlog_defs__WEBPACK_IMPORTED_MODULE_0__/* .logDefinitionsVersions */ .W[version][type];
@@ -1989,6 +2205,13 @@ class NetRegexes {
   static actorControlExtra(params) {
     return buildRegex('ActorControlExtra', params);
   }
+
+  /**
+   * matches: https://github.com/OverlayPlugin/cactbot/blob/main/docs/LogGuide.md#line-274-0x112-actorcontrolselfextra
+   */
+  static actorControlSelfExtra(params) {
+    return buildRegex('ActorControlSelfExtra', params);
+  }
 }
 const commonNetRegex = {
   // TODO(6.2): remove 40000010 after everybody is on 6.2.
@@ -2136,7 +2359,7 @@ const numberToOutputString = function (n) {
     de: 'Tank Cleave',
     fr: 'Tank cleave',
     ja: 'タンク範囲攻撃',
-    cn: '顺劈',
+    cn: '范围死刑',
     ko: '광역 탱버'
   },
   tankBusterCleaves: {
@@ -2144,7 +2367,7 @@ const numberToOutputString = function (n) {
     de: 'Tankbuster Cleaves',
     fr: 'Tankbuster cleaves',
     ja: 'MT・ST同時範囲攻撃',
-    cn: '双T扇形死刑',
+    cn: '坦克范围死刑',
     ko: '동시 광역 탱버'
   },
   tankBusterCleavesOnYou: {
@@ -2152,7 +2375,7 @@ const numberToOutputString = function (n) {
     de: 'Tank Cleaves auf DIR',
     fr: 'Tank cleaves sur VOUS',
     ja: 'MT・ST同時範囲攻撃(自分対象)',
-    cn: '坦克顺劈点名',
+    cn: '坦克范围死刑点名',
     ko: '광역 탱버 대상자'
   },
   avoidTankCleave: {
@@ -2160,7 +2383,7 @@ const numberToOutputString = function (n) {
     de: 'Tank Cleave ausweichen',
     fr: 'Évitez le tank cleave',
     ja: 'タンク範囲攻撃を避ける',
-    cn: '远离顺劈',
+    cn: '远离范围死刑',
     ko: '광역 탱버 피하기'
   },
   avoidTankCleaves: {
@@ -2168,7 +2391,7 @@ const numberToOutputString = function (n) {
     de: 'Tankbuster Cleaves ausweichen',
     fr: 'Évitez les cleaves (tankbusters)',
     ja: '範囲攻撃を避けて',
-    cn: '躲避双T扇形死刑',
+    cn: '远离坦克范围死刑',
     ko: '광역 탱버 피하기'
   },
   tankCleaveOnYou: {
@@ -2176,7 +2399,7 @@ const numberToOutputString = function (n) {
     de: 'Tank Cleave aud DIR',
     fr: 'Tank cleave sur VOUS',
     ja: '自分に範囲攻撃',
-    cn: '顺劈点名',
+    cn: '范围死刑点名',
     ko: '나에게 광역 탱버'
   },
   sharedTankbuster: {
@@ -3678,6 +3901,13 @@ class Regexes {
   }
 
   /**
+   * matches: https://github.com/OverlayPlugin/cactbot/blob/main/docs/LogGuide.md#line-274-0x112-actorcontrolselfextra
+   */
+  static actorControlSelfExtra(params) {
+    return buildRegex('ActorControlSelfExtra', params);
+  }
+
+  /**
    * Helper function for building named capture group
    */
   static maybeCapture(capture, name, value, defaultValue) {
@@ -5052,6 +5282,7 @@ const Util = {
     clearCombatantsOverride = clearFunc;
   },
   gameLogCodes: _netregexes__WEBPACK_IMPORTED_MODULE_0__/* .gameLogCodes */ .k3,
+  actorControlType: _netregexes__WEBPACK_IMPORTED_MODULE_0__/* .actorControlType */ .Bx,
   shortName: (name, playerNicks) => {
     // TODO: make this unique among the party in case of first name collisions.
     if (typeof name !== 'string') {
@@ -14685,6 +14916,7 @@ const data = {
     'contentType': 6,
     'exVersion': 0,
     'name': {
+      'cn': '赤土红沙',
       'de': 'Die Roten Sande',
       'en': 'The Red Sands',
       'fr': 'Les Sables sanglants',
@@ -14699,6 +14931,7 @@ const data = {
     'contentType': 6,
     'exVersion': 0,
     'name': {
+      'cn': '水晶冲突（赤土红沙：自定赛）',
       'de': 'Crystalline Conflict: Die Roten Sande (Schaukampf)',
       'en': 'Crystalline Conflict (Custom Match - The Red Sands)',
       'fr': 'Crystalline Conflict (partie personnalisée - Les Sables sanglants)',
@@ -15004,7 +15237,8 @@ const data = {
       'de': 'Monduntergrund',
       'en': 'The Lunar Subterrane',
       'fr': 'Le Souterrain lunaire',
-      'ja': '深淵潜行 月の地下渓谷'
+      'ja': '深淵潜行 月の地下渓谷',
+      'ko': '달의 지하계곡'
     },
     'offsetX': 440,
     'offsetY': 130,
@@ -15015,6 +15249,7 @@ const data = {
     'contentType': 19,
     'exVersion': 0,
     'name': {
+      'cn': '金碟巨豆中心',
       'de': 'Stolperville',
       'en': 'Blunderville',
       'fr': 'Blunderville',
@@ -15033,7 +15268,8 @@ const data = {
       'de': 'Prophetie - Zeromus',
       'en': 'The Abyssal Fracture',
       'fr': 'La Fracture abyssale',
-      'ja': 'ゼロムス討滅戦'
+      'ja': 'ゼロムス討滅戦',
+      'ko': '제로무스 토벌전'
     },
     'offsetX': -100,
     'offsetY': -100,
@@ -15048,7 +15284,8 @@ const data = {
       'de': 'Eschatos - Zeromus',
       'en': 'The Abyssal Fracture (Extreme)',
       'fr': 'La Fracture abyssale (extrême)',
-      'ja': '極ゼロムス討滅戦'
+      'ja': '極ゼロムス討滅戦',
+      'ko': '극 제로무스 토벌전'
     },
     'offsetX': -100,
     'offsetY': -100,
@@ -15095,7 +15332,8 @@ const data = {
       'de': 'Traumprüfung - Singularitäts-Reaktor',
       'en': 'The Singularity Reactor (Unreal)',
       'fr': 'Le Réacteur de singularité (irréel)',
-      'ja': '幻ナイツ・オブ・ラウンド討滅戦'
+      'ja': '幻ナイツ・オブ・ラウンド討滅戦',
+      'ko': '환 나이츠 오브 라운드 토벌전'
     },
     'offsetX': 0,
     'offsetY': 0,
@@ -15106,6 +15344,7 @@ const data = {
     'contentType': 30,
     'exVersion': 4,
     'name': {
+      'cn': '多变迷宫 阿罗阿罗岛',
       'de': 'Aloalo',
       'en': 'Aloalo Island',
       'fr': 'L\'île d\'Aloalo - Donjon à embranchements',
@@ -15138,7 +15377,8 @@ const data = {
       'de': 'Thaleia',
       'en': 'Thaleia',
       'fr': 'Domaine divin - Thalie',
-      'ja': '華めく神域 タレイア'
+      'ja': '華めく神域 タレイア',
+      'ko': '번영의 신역 탈레이아'
     },
     'offsetX': 800,
     'offsetY': 783,
@@ -15149,6 +15389,7 @@ const data = {
     'contentType': 30,
     'exVersion': 4,
     'name': {
+      'cn': '异闻迷宫 异闻阿罗阿罗岛',
       'de': 'Kurioses Aloalo',
       'en': 'Another Aloalo Island',
       'fr': 'L\'île d\'Aloalo annexe - Donjon alternatif',
@@ -15163,6 +15404,7 @@ const data = {
     'contentType': 30,
     'exVersion': 4,
     'name': {
+      'cn': '异闻迷宫 零式异闻阿罗阿罗岛',
       'de': 'Kurioses Aloalo (episch)',
       'en': 'Another Aloalo Island (Savage)',
       'fr': 'L\'île d\'Aloalo annexe - Donjon alternatif (sadique)',
@@ -18471,7 +18713,7 @@ var netlog_defs = __webpack_require__(21);
 
 
 
-const isLogDefinitionTypes = type => {
+const isLogDefinitionName = type => {
   return type in netlog_defs/* default */.Z;
 };
 const isStringArray = value => {
@@ -18578,6 +18820,7 @@ class TimelineParser {
     for (let line of lines) {
       ++lineNumber;
       line = line.trim();
+
       // Drop comments and empty lines.
       if (!line || timeline_parser_regexes.comment.test(line)) continue;
       const originalLine = line;
@@ -18779,7 +19022,7 @@ class TimelineParser {
     if (syncCommand.netRegexType === undefined || syncCommand.netRegex === undefined) throw new not_reached/* UnreachableCode */.$();
     line = line.replace(syncCommand.netRegexType, '').trim();
     const netRegexType = syncCommand.netRegexType;
-    if (!isLogDefinitionTypes(netRegexType)) {
+    if (!isLogDefinitionName(netRegexType)) {
       this.errors.push({
         lineNumber: lineNumber,
         line: originalLine,
