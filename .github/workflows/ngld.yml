@@ -1,10 +1,10 @@
-name: 解析插件
+name: ngld悬浮窗
 on:
   workflow_dispatch:
   push:
     paths:
-      - 'parse/**'
-      - '.github/workflows/parse.yml'
+      - 'ngld/**'
+      - '.github/workflows/ngld.yml'
 jobs:
   zip:
     runs-on: ubuntu-latest
@@ -17,7 +17,7 @@ jobs:
           lfs: true
       - uses: actions/upload-artifact@v4
         with:
-          name: ffxiv-act-plugin_${{ steps.date.outputs.date }}
+          name: ngld-op_${{ steps.date.outputs.date }}
           path: parse
           if-no-files-found: error
           compression-level: 9
